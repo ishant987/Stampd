@@ -1,6 +1,6 @@
 # Stampd.Email.Smtp
 
-SMTP IEmailSender for Stampd, backed by MailKit. Works against any RFC 5321 SMTP server: in-process dev tools (Hermex), corporate Postfix/Exchange, hosted SMTP (SendGrid SMTP, SES SMTP, Mailgun, etc.).
+SMTP IEmailSender for Stampd, backed by MailKit. Works against any RFC 5321 SMTP server (SendGrid SMTP, AWS SES SMTP, Mailgun, Postfix, Exchange, etc.).
 
 Part of [Stampd](https://github.com/isureshsubramanian/Stampd) — open-source PDF signing for .NET. Apache 2.0.
 

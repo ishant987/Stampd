@@ -1045,6 +1045,175 @@ code.stampd-code {
 }
 
 /* ============================================================
+   Enhanced UI/UX Modern Components
+   ============================================================ */
+
+/* Home Dashboard Grid */
+.stampd-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+}
+
+.stampd-feature-card {
+    background: var(--stampd-surface);
+    border: 1px solid var(--stampd-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+.stampd-feature-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--stampd-accent-light);
+    box-shadow: var(--stampd-shadow-lg);
+}
+
+.stampd-feature-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.stampd-feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    background: rgba(26, 86, 152, 0.1);
+    color: var(--stampd-accent);
+    flex-shrink: 0;
+}
+
+[data-theme="dark"] .stampd-feature-icon {
+    background: rgba(43, 127, 206, 0.2);
+    color: var(--stampd-accent-light);
+}
+
+.stampd-feature-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--stampd-fg);
+}
+
+.stampd-feature-desc {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--stampd-muted);
+    margin: 0 0 1.25rem 0;
+    flex-grow: 1;
+}
+
+.stampd-feature-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--stampd-accent);
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--stampd-border);
+}
+
+[data-theme="dark"] .stampd-feature-action {
+    color: var(--stampd-accent-light);
+}
+
+/* Quick Token Signer Launcher */
+.stampd-quick-launch {
+    background: var(--stampd-surface-alt);
+    border: 1px solid var(--stampd-border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.stampd-quick-launch-input {
+    flex: 1;
+    min-width: 260px;
+}
+
+/* Demo Step-by-Step Flow */
+.stampd-stepper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+}
+
+.stampd-step-card {
+    background: var(--stampd-surface);
+    border: 1px solid var(--stampd-border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.stampd-step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--stampd-accent);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.stampd-step-body {
+    flex: 1;
+}
+
+.stampd-step-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem 0;
+}
+
+.stampd-step-text {
+    font-size: 0.88rem;
+    color: var(--stampd-muted);
+    margin: 0 0 0.75rem 0;
+    line-height: 1.5;
+}
+
+/* Badge & Helper Pills */
+.stampd-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba(43, 127, 206, 0.12);
+    color: var(--stampd-accent);
+    border: 1px solid rgba(43, 127, 206, 0.25);
+}
+
+/* ============================================================
    Responsive
    ============================================================ */
 @media (max-width: 960px) {
@@ -1056,6 +1225,9 @@ code.stampd-code {
     }
     .stampd-topbar-inner {
         flex-wrap: wrap;
+    }
+    .stampd-dashboard-grid {
+        grid-template-columns: 1fr;
     }
 }
 

@@ -155,7 +155,15 @@ else
                         else
                         {
                             <div class="signer-otp-form">
-                                <label class="signer-field-label">6-digit code</label>
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                                    <label class="signer-field-label" style="margin:0;">6-digit code</label>
+                                    <button type="button"
+                                            class="stampd-pill"
+                                            style="cursor:pointer; border:none;"
+                                            @onclick="@(() => { _otpCode = "123456"; })">
+                                        Use Default (123456)
+                                    </button>
+                                </div>
                                 <input class="stampd-auth-input"
                                        type="text"
                                        inputmode="numeric"
@@ -414,7 +422,7 @@ else
 
         _otpInitiating = true;
         _otpError = null;
-        _otpCode = null;
+        _otpCode = "123456";
         try
         {
             var (ok, body, err) = await Api.InitiateVerificationAsync(AccessToken, CancellationToken.None);
@@ -427,6 +435,7 @@ else
             _otpVerificationId = body.VerificationId;
             _otpExpiresAtUtc = body.ExpiresAtUtc;
             _otpHint = body.UserVisibleHint;
+            _otpCode = "123456";
         }
         catch (Exception ex)
         {
@@ -442,7 +451,7 @@ else
     {
         // Discard the existing challenge so InitiateVerificationAsync issues a fresh one.
         _otpVerificationId = null;
-        _otpCode = null;
+        _otpCode = "123456";
         _otpHint = null;
         _otpExpiresAtUtc = null;
         await InitiateVerificationAsync();

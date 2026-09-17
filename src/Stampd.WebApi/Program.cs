@@ -322,7 +322,7 @@ builder.Services.AddSingleton<SenderCompletionNotifier>();
 // (5170/sign/{token}), so the access URLs the API returns are clickable without any extra
 // config. Adopters override Stampd:Workflow:Email:SigningUrlTemplate for production.
 var defaultSigningUrlTemplate = builder.Environment.IsDevelopment()
-    ? "http://localhost:5170/sign/{accessToken}"
+    ? "http://localhost:5190/sign/{accessToken}"
     : null;
 
 // SignedDocumentUrlTemplate default (v1.3 #134): point senders at the Blazor UI's signed
@@ -330,7 +330,7 @@ var defaultSigningUrlTemplate = builder.Environment.IsDevelopment()
 // out of the box. Adopters override Stampd:Workflow:Email:SignedDocumentUrlTemplate for
 // production deployments.
 var defaultSignedDocumentUrlTemplate = builder.Environment.IsDevelopment()
-    ? "http://localhost:5170/signed/{signedDocumentId}"
+    ? "http://localhost:5190/signed/{signedDocumentId}"
     : null;
 
 builder.Services.AddSingleton(new WorkflowEmailOptions
@@ -343,13 +343,12 @@ builder.Services.AddSingleton(new WorkflowEmailOptions
 });
 
 // ---- Email transport ----
-// SMTP sender. Defaults to localhost:2525 (Hermex default) with no auth so the
-// in-process dev SMTP server hosted by Stampd.UI captures everything for inspection
-// at http://localhost:5170/hermex. Override Stampd:Email:Smtp:* for production.
+// SMTP sender. Suitable for any RFC 5321 server (SendGrid, AWS SES, Postmark, Mailgun, or local SMTP).
+// Configured via Stampd:Email:Smtp:*.
 builder.Services.AddSmtpEmailSender(opts =>
 {
     opts.Host = builder.Configuration["Stampd:Email:Smtp:Host"] ?? "localhost";
-    opts.Port = builder.Configuration.GetValue("Stampd:Email:Smtp:Port", 2525);
+    opts.Port = builder.Configuration.GetValue("Stampd:Email:Smtp:Port", 587);
     opts.Username = builder.Configuration["Stampd:Email:Smtp:Username"];
     opts.Password = builder.Configuration["Stampd:Email:Smtp:Password"];
     var sec = builder.Configuration["Stampd:Email:Smtp:Security"];
@@ -360,8 +359,7 @@ builder.Services.AddSmtpEmailSender(opts =>
     }
     else
     {
-        // Dev default: no TLS so Hermex on :2525 just works.
-        opts.Security = MailKit.Security.SecureSocketOptions.None;
+        opts.Security = MailKit.Security.SecureSocketOptions.Auto;
     }
 });
 

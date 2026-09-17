@@ -11,36 +11,23 @@ WORKDIR /src
 # Copy solution + props first so layer cache stays warm when only source changes.
 COPY global.json Directory.Build.props Stampd.slnx ./
 
-# Copy every project's csproj (preserves directory structure) for restore.
-COPY src/Stampd.Core/Stampd.Core.csproj                                   src/Stampd.Core/
-COPY src/Stampd.Engine/Stampd.Engine.csproj                               src/Stampd.Engine/
-COPY src/Stampd.Infrastructure/Stampd.Infrastructure.csproj               src/Stampd.Infrastructure/
-COPY src/Stampd.Infrastructure.Sqlite/Stampd.Infrastructure.Sqlite.csproj src/Stampd.Infrastructure.Sqlite/
-COPY src/Stampd.Crypto.LocalCertificate/Stampd.Crypto.LocalCertificate.csproj src/Stampd.Crypto.LocalCertificate/
-COPY src/Stampd.Crypto.Vault/Stampd.Crypto.Vault.csproj                   src/Stampd.Crypto.Vault/
-COPY src/Stampd.Timestamp.FreeTsa/Stampd.Timestamp.FreeTsa.csproj         src/Stampd.Timestamp.FreeTsa/
-COPY src/Stampd.Storage.FileSystem/Stampd.Storage.FileSystem.csproj       src/Stampd.Storage.FileSystem/
-COPY src/Stampd.WebApi/Stampd.WebApi.csproj                               src/Stampd.WebApi/
+COPY src/ src/
 
 RUN dotnet restore src/Stampd.WebApi/Stampd.WebApi.csproj
-
-# Now copy the actual source.
-COPY src/ src/
 
 RUN dotnet publish src/Stampd.WebApi/Stampd.WebApi.csproj \
     -c Release \
     -o /app/publish \
-    --no-restore \
-    /p:UseAppHost=false
+    /p:UseAppHost=false \
+    /p:CopyOutputSymbolsToPublishDirectory=false
 
 # ----- Runtime stage -----
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 
-# Install fonts so PDFsharp's text rendering doesn't error out at runtime
-# (the PlatformFontResolver expects /usr/share/fonts/.../DejaVuSans.ttf on Linux).
+# Install fonts and native libraries so PDFsharp and SkiaSharp run cleanly on Linux.
 RUN apt-get update \
- && apt-get install -y --no-install-recommends fonts-dejavu fonts-liberation \
+ && apt-get install -y --no-install-recommends fonts-dejavu fonts-liberation curl libfontconfig1 \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /app/publish .

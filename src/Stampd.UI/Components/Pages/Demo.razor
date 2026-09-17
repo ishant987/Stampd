@@ -9,14 +9,17 @@
 
 <div class="stampd-page">
     <section class="stampd-hero">
-        <h1 class="stampd-hero-title">Seamless demo</h1>
-        <p class="stampd-hero-sub">
-            One click — Stampd seeds a sample NDA template (if missing), dispatches a fresh
-            signing request to <strong>alice@example.com</strong>, and opens the signing
-            page in a new tab. The recipient role has identity verification on, so the OTP
-            code will land in the <a href="/hermex" target="_blank" rel="noopener">/hermex</a>
-            inbox alongside the workflow invitation.
-        </p>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+            <div>
+                <div style="display:inline-flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.15); border-radius:20px; padding:0.25rem 0.75rem; font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.75rem;">
+                    <span>Interactive Sandbox</span>
+                </div>
+                <h1 class="stampd-hero-title">1-Click Signing Demo</h1>
+                <p class="stampd-hero-sub" style="max-width:720px;">
+                    Test the complete signer journey in one click. Stampd automatically seeds the sample NDA template, dispatches an envelope to <strong>alice@example.com</strong>, sends the OTP verification email, and unlocks the signature canvas.
+                </p>
+            </div>
+        </div>
     </section>
 
     @if (!IsDevelopment)
@@ -30,51 +33,81 @@
     }
     else
     {
-        <section class="stampd-card">
-            <h2 class="stampd-card-title">Run the demo</h2>
-            <p class="stampd-page-subtitle">
-                The seed is idempotent — running it again creates a fresh signing request
-                against the existing Demo NDA template.
-            </p>
-            <div style="display:flex; gap:0.75rem; align-items:center; margin-top: 1rem;">
-                <button class="stampd-btn stampd-btn--primary"
-                        type="button"
-                        disabled="@_running"
-                        @onclick="RunDemoAsync">
-                    @(_running ? "Running…" : "Try the demo end-to-end")
-                </button>
-                <a class="stampd-btn stampd-btn--ghost" href="/hermex" target="_blank" rel="noopener">Open /hermex</a>
-            </div>
-            @if (_error is not null)
-            {
-                <div class="signer-error" style="margin-top: 1rem;">@_error</div>
-            }
-        </section>
-
-        @if (_result is not null)
-        {
-            <section class="stampd-card">
-                <h2 class="stampd-card-title">Demo dispatched</h2>
-                <div class="stampd-page-subtitle" style="margin-top:0.25rem;">
-                    Recipient: <strong>@_result.RecipientName</strong> · <span style="color: var(--stampd-muted);">@_result.RecipientEmail</span>
-                </div>
-                <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; margin-top: 0.75rem;">
-                    <code class="stampd-code" style="word-break: break-all; flex:1;">@_result.AccessUrl</code>
-                    <a class="stampd-btn stampd-btn--primary" href="@_result.AccessUrl" target="_blank" rel="noopener">Open as Alice</a>
-                </div>
-                @if (_result.OtpRequired)
-                {
-                    <p class="stampd-page-subtitle" style="margin-top: 0.75rem;">
-                        Identity verification is on for this role. Alice will see the OTP gate
-                        on the signing page; the code arrives in <a href="/hermex" target="_blank" rel="noopener">/hermex</a>.
+        <!-- Step-by-Step Interactive Guide -->
+        <div class="stampd-stepper">
+            <!-- Step 1 -->
+            <div class="stampd-step-card" style="border-left: 4px solid var(--stampd-accent);">
+                <div class="stampd-step-num">1</div>
+                <div class="stampd-step-body">
+                    <h3 class="stampd-step-title">Dispatch Test Signing Request</h3>
+                    <p class="stampd-step-text">
+                        Click below to create a real signing session with template fields, cryptographic envelope, and recipient routing.
                     </p>
-                }
-                <p class="stampd-page-subtitle" style="margin-top: 0.5rem;">
-                    Template: <strong>@_result.TemplateName</strong> ·
-                    Request id: <code class="stampd-code">@_result.SigningRequestId.ToString("N")[..8]</code>
-                </p>
-            </section>
-        }
+                    <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;">
+                        <button class="stampd-btn stampd-btn--primary"
+                                type="button"
+                                disabled="@_running"
+                                @onclick="RunDemoAsync">
+                            @(_running ? "Dispatching Demo…" : "Start Demo Flow")
+                        </button>
+                        @if (_result is not null)
+                        {
+                            <span class="stampd-chip stampd-chip--accent" style="background:#2e7d32; color:#ffffff; border:none;">
+                                ✓ Request Created
+                            </span>
+                        }
+                    </div>
+                    @if (_error is not null)
+                    {
+                        <div class="signer-error" style="margin-top: 0.75rem;">@_error</div>
+                    }
+                </div>
+            </div>
+
+            <!-- Step 2: Result & Launch -->
+            @if (_result is not null)
+            {
+                <div class="stampd-step-card" style="border-left: 4px solid #2e7d32; animation: stampd-fade-up 0.3s ease;">
+                    <div class="stampd-step-num" style="background:#2e7d32;">2</div>
+                    <div class="stampd-step-body">
+                        <h3 class="stampd-step-title">Sign as Alice Example</h3>
+                        <p class="stampd-step-text">
+                            Document is ready. Identity verification is required: use the default code <strong style="color:var(--stampd-accent);">123456</strong>.
+                        </p>
+
+                        <div style="background:var(--stampd-surface-alt); border:1px solid var(--stampd-border); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem; font-size:0.82rem; color:var(--stampd-muted);">
+                                <span>Recipient: <strong>@_result.RecipientName</strong> (@_result.RecipientEmail)</span>
+                                <span>Template: <strong>@_result.TemplateName</strong></span>
+                            </div>
+                            <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+                                <code class="stampd-code" style="word-break: break-all; flex:1; font-size:0.8rem;">@_result.AccessUrl</code>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;">
+                            <a class="stampd-btn stampd-btn--primary" href="@_result.AccessUrl" target="_blank" rel="noopener">
+                                Open Signing Page as Alice ↗
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Complete -->
+                <div class="stampd-step-card">
+                    <div class="stampd-step-num" style="background:var(--stampd-muted);">3</div>
+                    <div class="stampd-step-body">
+                        <h3 class="stampd-step-title">Seal & Download Signed PDF</h3>
+                        <p class="stampd-step-text">
+                            Once Alice verifies with <code>123456</code> and draws/types her signature, the backend seals the PDF with PAdES digital signatures and RFC 3161 timestamps. You can download the completed document directly from the success screen or the Requests tab.
+                        </p>
+                        <a href="/designer/requests" class="stampd-btn stampd-btn--ghost">
+                            View All Signing Requests →
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
     }
 </div>
 
@@ -95,7 +128,6 @@
             using var http = HttpFactory.CreateClient();
             http.BaseAddress = new Uri(apiBase);
 
-            // POST /api/demo/seed has no body. AllowAnonymous on the server side.
             using var resp = await http.PostAsync("/api/demo/seed", content: null, CancellationToken.None);
             if (!resp.IsSuccessStatusCode)
             {
@@ -111,7 +143,7 @@
                 return;
             }
 
-            // Auto-open the access URL so the user lands on the signing page immediately.
+            // Auto-open the access URL in a new tab
             await JS.InvokeVoidAsync("open", _result.AccessUrl, "_blank");
         }
         catch (Exception ex)

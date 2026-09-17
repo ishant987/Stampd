@@ -172,9 +172,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Pre-fill sender defaults in Development so the demo flow is one-click — the
-        // Hermex in-process SMTP server happily captures anything routable, including
-        // these "@stampd.dev" placeholders. Users overwrite freely.
+        // Pre-fill sender defaults in Development so the demo flow is one-click. Users overwrite freely.
         if (HostEnv.IsDevelopment())
         {
             _senderName = "Demo Sender";

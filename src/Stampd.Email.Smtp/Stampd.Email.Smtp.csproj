@@ -2,9 +2,10 @@
 
   <PropertyGroup>
     <PackageId>Stampd.Email.Smtp</PackageId>
-    <Description>SMTP IEmailSender for Stampd, backed by MailKit. Works against any RFC 5321 SMTP server: in-process dev tools (Hermex), corporate Postfix/Exchange, hosted SMTP (SendGrid SMTP, SES SMTP, Mailgun, etc.).</Description>
+    <Description>SMTP IEmailSender for Stampd, backed by MailKit. Works against any RFC 5321 SMTP server (SendGrid SMTP, AWS SES SMTP, Mailgun, Postfix, Exchange, etc.).</Description>
     <PackageTags>stampd;email;smtp;mailkit</PackageTags>
     <RootNamespace>Stampd.Email.Smtp</RootNamespace>
+    <NoWarn>$(NoWarn);CA1848;CA1873</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="MailKit" Version="4.17.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.8" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.8" />
     <PackageReference Update="Microsoft.SourceLink.GitHub" Version="10.0.300" />
   </ItemGroup>

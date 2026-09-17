@@ -2,8 +2,8 @@ namespace Stampd.Core.Notifications;
 
 /// <summary>
 /// Sends transactional emails — signing invitations, OTP codes, completion notifications.
-/// Pluggable so adopters can wire SMTP, SendGrid, SES, Postmark, or a captured-in-process
-/// dev tool like Hermex without changing engine or workflow code.
+/// Pluggable so adopters can wire SMTP, SendGrid, SES, Postmark, or custom providers
+/// without changing engine or workflow code.
 /// </summary>
 public interface IEmailSender
 {

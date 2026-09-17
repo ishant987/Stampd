@@ -14,7 +14,9 @@ internal static class RecipientSigningEndpoints
 {
     public static IEndpointRouteBuilder MapRecipientSigning(this IEndpointRouteBuilder builder)
     {
-        var group = builder.MapGroup("/api/sign").WithTags("Recipient");
+        var group = builder.MapGroup("/api/sign")
+            .WithTags("Recipient")
+            .AllowAnonymous();
 
         group.MapGet("/{accessToken}", GetAsync)
             .WithName("RecipientGetSigningView")

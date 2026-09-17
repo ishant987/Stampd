@@ -35,14 +35,6 @@
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.14.2" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.14.2" />
     <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
-
-    <!--
-      Hermex: in-process SMTP + IMAP server with a /hermex dashboard. Captures every
-      email the WebApi sends in dev (workflow invitations, OTP codes) so we can read
-      them without an external mailbox. The package keeps the original AddMail4Dev /
-      UseMail4Dev API names.
-    -->
-    <PackageReference Include="Hermex" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

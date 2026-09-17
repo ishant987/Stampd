@@ -5,23 +5,20 @@
 <div class="stampd-app">
     <header class="stampd-topbar">
         <div class="stampd-topbar-inner">
-            <div class="stampd-brand">
+            <a href="/" class="stampd-brand" style="text-decoration:none; color:inherit;">
                 <span class="stampd-brand-mark">S</span>
                 <span class="stampd-brand-title">Stampd</span>
-                <span class="stampd-brand-sub">Signing Experience</span>
-            </div>
+                <span class="stampd-brand-sub">Digital Signatures</span>
+            </a>
 
             <nav class="stampd-topbar-nav">
+                <a href="/">Home</a>
+                <a href="/demo">Demo</a>
                 <a href="/designer">Designer</a>
                 <a href="/designer/requests">Requests</a>
                 @if (CurrentUser.IsInRole(Core.Authorization.StampdRoles.Admin))
                 {
                     <a href="/admin" title="Admin dashboard">Admin</a>
-                }
-                @if (HostEnv.IsDevelopment())
-                {
-                    <a href="/demo">Demo</a>
-                    <a href="/hermex" target="_blank" rel="noopener" title="Dev SMTP capture">Hermex</a>
                 }
             </nav>
 

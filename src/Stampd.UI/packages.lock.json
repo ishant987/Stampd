@@ -2,20 +2,11 @@
   "version": 1,
   "dependencies": {
     "net10.0": {
-      "Hermex": {
-        "type": "Direct",
-        "requested": "[1.0.0, )",
-        "resolved": "1.0.0",
-        "contentHash": "jldoIFUY+lDKzEggltbqmMvLPu+qLHbv42m76/0IcLse4v2o9ND31RtJAPn7OzxGTUNA+8ylkjkZn3FUtlbZCg==",
-        "dependencies": {
-          "Microsoft.Data.Sqlite": "10.0.0"
-        }
-      },
       "Microsoft.AspNetCore.App.Internal.Assets": {
         "type": "Direct",
-        "requested": "[10.0.8, )",
-        "resolved": "10.0.8",
-        "contentHash": "v6KocthydFtUHBIRI29YsOHKOgsqcQubkNywVOxiYr4GSDSv+XO/AeyMJywlX+1tGUTGdydu/X7V+Tzeq4SsoA=="
+        "requested": "[10.0.12, )",
+        "resolved": "10.0.12",
+        "contentHash": "+sIBo9AMBZH46qHWHQdfzcGMt+RuBaPYrUMOAM9VjA7MQ9QtIez3lq1C3E05+Yroa94KKt3DSWaxmCI4H28a9Q=="
       },
       "Microsoft.FluentUI.AspNetCore.Components": {
         "type": "Direct",

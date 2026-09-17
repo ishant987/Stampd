@@ -14,11 +14,12 @@ public static class SmtpEmailServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(configure);
 
-        services.TryAddSingleton<IEmailSender>(_ =>
+        services.TryAddSingleton<IEmailSender>(sp =>
         {
             var options = new SmtpEmailSenderOptions();
             configure(options);
-            return new SmtpEmailSender(options);
+            var logger = sp.GetService<Microsoft.Extensions.Logging.ILogger<SmtpEmailSender>>();
+            return new SmtpEmailSender(options, logger);
         });
 
         return services;

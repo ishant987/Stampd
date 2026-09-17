@@ -24,16 +24,16 @@ services:
     container_name: stampd-webapi
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "${WEBAPI_PORT:-8090}:8080"
     environment:
-      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
 
       Stampd__Sealing__Provider: Local
       # Reuse the host's persistent cert at ~/.stampd/spike-signer.pfx — the host volume
       # mount below makes it visible inside the container. Adobe trust setup from the host
       # carries over automatically; you don't have to import a fresh cert for the docker stack.
-      Stampd__SigningCertificate__Pkcs12Path: /host-stampd/spike-signer.pfx
+      Stampd__SigningCertificate__Pkcs12Path: /data/spike-signer.pfx
       Stampd__SigningCertificate__Password: stampd-spike
 
       Stampd__Tsa__Enabled: "true"
@@ -48,6 +48,10 @@ services:
       Stampd__Auth__Jwt__Issuer: stampd
       Stampd__Auth__Jwt__Audience: stampd-api
       Stampd__Auth__Jwt__EnableDevTokenEndpoint: "true"
+      Stampd__Auth__SuperAdminUserIds: designer-user,admin@example.com
+
+      Stampd__Workflow__Email__SigningUrlTemplate: http://localhost:5190/sign/{accessToken}
+      Stampd__Workflow__Email__SignedDocumentUrlTemplate: http://localhost:5190/signed/{signedDocumentId}
 
       # Uncomment to ship traces to a local Jaeger / Tempo / Datadog OTLP receiver:
       # Stampd__Otel__OtlpEndpoint: http://otel-collector:4317
@@ -74,13 +78,31 @@ services:
       BAO_DEV_ROOT_TOKEN_ID: stampd-dev-root-token
       BAO_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
     ports:
-      - "8200:8200"
+      - "${OPENBAO_PORT:-8250}:8200"
     command: ["server", "-dev"]
     healthcheck:
       test: ["CMD-SHELL", "bao status -address=http://localhost:8200 || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 3
+
+  ui:
+    build:
+      context: .
+      dockerfile: src/Stampd.UI/Dockerfile
+    image: stampd/ui:dev
+    container_name: stampd-ui
+    restart: unless-stopped
+    ports:
+      - "${UI_PORT:-5190}:5170"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:5170
+      Stampd__Api__BaseUrl: http://webapi:8080
+      Stampd__DevAuth__Roles: Admin,Sender
+      Stampd__DevAuth__Subject: designer-user
+    depends_on:
+      - webapi
 
 volumes:
   stampd-data:

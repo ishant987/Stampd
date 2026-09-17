@@ -1,5 +1,5 @@
 using MailKit.Net.Smtp;
-
+using Microsoft.Extensions.Logging;
 using MimeKit;
 
 using Stampd.Core.Notifications;
@@ -7,18 +7,19 @@ using Stampd.Core.Notifications;
 namespace Stampd.Email.Smtp;
 
 /// <summary>
-/// MailKit-backed SMTP <see cref="IEmailSender"/>. Suitable for any RFC 5321 server,
-/// including the in-process dev tool Hermex (which exposes a localhost SMTP listener).
+/// MailKit-backed SMTP <see cref="IEmailSender"/>. Suitable for any RFC 5321 server.
 /// </summary>
 public sealed class SmtpEmailSender : IEmailSender
 {
     private readonly SmtpEmailSenderOptions _options;
+    private readonly ILogger<SmtpEmailSender>? _logger;
 
-    public SmtpEmailSender(SmtpEmailSenderOptions options)
+    public SmtpEmailSender(SmtpEmailSenderOptions options, ILogger<SmtpEmailSender>? logger = null)
     {
         ArgumentNullException.ThrowIfNull(options);
         options.Validate();
         _options = options;
+        _logger = logger;
     }
 
     /// <inheritdoc />
@@ -54,19 +55,28 @@ public sealed class SmtpEmailSender : IEmailSender
 
         mime.Body = body.ToMessageBody();
 
-        using var client = new SmtpClient();
-        await client
-            .ConnectAsync(_options.Host!, _options.Port, _options.Security, cancellationToken)
-            .ConfigureAwait(false);
-
-        if (!string.IsNullOrEmpty(_options.Username))
+        try
         {
+            using var client = new SmtpClient();
             await client
-                .AuthenticateAsync(_options.Username, _options.Password ?? string.Empty, cancellationToken)
+                .ConnectAsync(_options.Host!, _options.Port, _options.Security, cancellationToken)
                 .ConfigureAwait(false);
-        }
 
-        await client.SendAsync(mime, cancellationToken).ConfigureAwait(false);
-        await client.DisconnectAsync(quit: true, cancellationToken).ConfigureAwait(false);
+            if (!string.IsNullOrEmpty(_options.Username))
+            {
+                await client
+                    .AuthenticateAsync(_options.Username, _options.Password ?? string.Empty, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+
+            await client.SendAsync(mime, cancellationToken).ConfigureAwait(false);
+            await client.DisconnectAsync(quit: true, cancellationToken).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger?.LogWarning(ex, "Could not deliver email over SMTP ({Host}:{Port}). Subject: '{Subject}'. Recipient: {Recipients}",
+                _options.Host, _options.Port, message.Subject, string.Join(", ", message.To.Select(t => t.Address)));
+            _logger?.LogInformation("Email notification fallback (logged only):\n{PlainText}", message.PlainTextBody);
+        }
     }
 }

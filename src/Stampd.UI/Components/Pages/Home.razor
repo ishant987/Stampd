@@ -1,24 +1,177 @@
 @page "/"
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@inject IHostEnvironment HostEnv
 
-<PageTitle>Stampd</PageTitle>
+<PageTitle>Stampd — Digital Signature Platform</PageTitle>
 
-<FluentStack Orientation="Orientation.Vertical" VerticalGap="16">
-    <FluentLabel Typo="Typography.H1">Welcome to Stampd</FluentLabel>
-    <FluentLabel Typo="Typography.Body">
-        Open-source, .NET-native PDF signing. To sign a document, open the link you
-        received in your invitation email — it looks like:
-    </FluentLabel>
-    <code class="stampd-code">@($"{BaseUrl}/sign/{{your-access-token}}")</code>
-    <FluentLabel Typo="Typography.Subject">
-        Or jump to the in-progress template designer:
-    </FluentLabel>
-    <FluentAnchor Href="/designer" Appearance="Appearance.Accent">
-        Open designer
-    </FluentAnchor>
-</FluentStack>
+<div class="stampd-page">
+    <section class="stampd-hero">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+            <div>
+                <div style="display:inline-flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.15); border-radius:20px; padding:0.25rem 0.75rem; font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.75rem;">
+                    <span>● System Active</span>
+                    <span style="opacity:0.8;">· PAdES B-B to B-LTA</span>
+                </div>
+                <h1 class="stampd-hero-title">Welcome to Stampd</h1>
+                <p class="stampd-hero-sub" style="max-width:720px;">
+                    Enterprise-grade, open-source e-signature platform for .NET.
+                    Prepare documents, configure multi-party signing workflows, verify recipient identities, and seal PDFs with cryptographic audit trails.
+                </p>
+            </div>
+            <div style="display:flex; gap:0.75rem; align-items:center; margin-top:0.5rem;">
+                <a href="/demo" class="stampd-btn stampd-btn--primary" style="background:#ffffff; color:#0b3c6e; font-weight:700; border:none; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+                    Try 1-Click Demo
+                </a>
+                <a href="/designer" class="stampd-btn stampd-btn--on-dark">
+                    Open Designer
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Access Token Launcher -->
+    <section class="stampd-quick-launch">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+            <div>
+                <strong style="font-size:0.95rem; color:var(--stampd-fg);">Have a signing link token?</strong>
+                <div style="font-size:0.82rem; color:var(--stampd-muted);">Paste your access token to open your document directly:</div>
+            </div>
+        </div>
+        <div class="stampd-quick-launch-input">
+            <input class="stampd-auth-input"
+                   type="text"
+                   placeholder="e.g. 1eca49356899304d547385f93e7f..."
+                   @bind="_inputToken"
+                   @bind:event="oninput"
+                   style="width:100%;" />
+        </div>
+        <button class="stampd-btn stampd-btn--primary"
+                type="button"
+                disabled="@string.IsNullOrWhiteSpace(_inputToken)"
+                @onclick="LaunchSignerToken">
+            Open Document →
+        </button>
+    </section>
+
+    <!-- Main Workspace Cards -->
+    <div class="stampd-dashboard-grid">
+        <!-- 1-Click Demo -->
+        <a href="/demo" class="stampd-feature-card">
+            <div>
+                <div class="stampd-feature-card-header">
+                    <div>
+                        <h2 class="stampd-feature-title">1-Click Signing Demo</h2>
+                        <span class="stampd-pill" style="margin-top:0.25rem;">Default OTP: 123456</span>
+                    </div>
+                </div>
+                <p class="stampd-feature-desc">
+                    Experience the complete signer journey in seconds. Seeds a sample NDA, sends verification code, unlocks the document, and applies cryptographic seals.
+                </p>
+            </div>
+            <div class="stampd-feature-action">
+                <span>Start interactive demo</span>
+                <span>→</span>
+            </div>
+        </a>
+
+        <!-- Template Designer -->
+        <a href="/designer" class="stampd-feature-card">
+            <div>
+                <div class="stampd-feature-card-header">
+                    <div>
+                        <h2 class="stampd-feature-title">Template Designer</h2>
+                        <span class="stampd-pill" style="margin-top:0.25rem;">Visual PDF Editor</span>
+                    </div>
+                </div>
+                <p class="stampd-feature-desc">
+                    Create reusable document templates. Drag and drop signature fields, configure multi-party signing roles, and enforce identity verification gates.
+                </p>
+            </div>
+            <div class="stampd-feature-action">
+                <span>Manage templates</span>
+                <span>→</span>
+            </div>
+        </a>
+
+        <!-- Signing Requests -->
+        <a href="/designer/requests" class="stampd-feature-card">
+            <div>
+                <div class="stampd-feature-card-header">
+                    <div>
+                        <h2 class="stampd-feature-title">Signing Requests</h2>
+                        <span class="stampd-pill" style="margin-top:0.25rem;">Workflow Tracking</span>
+                    </div>
+                </div>
+                <p class="stampd-feature-desc">
+                    Monitor real-time workflow statuses (Invited, Viewed, Signed, Completed), inspect audit logs, resend invitations, or download sealed PDF documents.
+                </p>
+            </div>
+            <div class="stampd-feature-action">
+                <span>View sent requests</span>
+                <span>→</span>
+            </div>
+        </a>
+
+        <!-- Admin Dashboard -->
+        <a href="/admin" class="stampd-feature-card">
+            <div>
+                <div class="stampd-feature-card-header">
+                    <div>
+                        <h2 class="stampd-feature-title">Admin Dashboard</h2>
+                        <span class="stampd-pill" style="margin-top:0.25rem;">Multi-tenant</span>
+                    </div>
+                </div>
+                <p class="stampd-feature-desc">
+                    Platform metrics, signing volume velocity, template analytics, tenant isolation scopes, and cryptographic sealing health.
+                </p>
+            </div>
+            <div class="stampd-feature-action">
+                <span>Open admin console</span>
+                <span>→</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- Developer & Diagnostic Utilities -->
+    @if (HostEnv.IsDevelopment())
+    {
+        <section class="stampd-card" style="margin-top:1.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+                <div>
+                    <h2 class="stampd-card-title">Developer & Local Services</h2>
+                    <p class="stampd-page-subtitle" style="margin-top:0.2rem;">
+                        Inspect background services, email inboxes, and API endpoints running locally.
+                    </p>
+                </div>
+                <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                    <a href="http://localhost:8090/swagger" target="_blank" rel="noopener" class="stampd-btn stampd-btn--ghost">
+                        API Swagger
+                    </a>
+                    <a href="http://localhost:8250" target="_blank" rel="noopener" class="stampd-btn stampd-btn--ghost">
+                        OpenBao Vault
+                    </a>
+                </div>
+            </div>
+        </section>
+    }
+</div>
 
 @code {
-    [Inject] private NavigationManager Navigation { get; set; } = default!;
+    private string _inputToken = string.Empty;
 
-    private string BaseUrl => Navigation.BaseUri.TrimEnd('/');
+    private void LaunchSignerToken()
+    {
+        var token = _inputToken.Trim();
+        if (string.IsNullOrWhiteSpace(token)) return;
+
+        // If the user pasted a full URL, extract the token
+        if (token.Contains("/sign/"))
+        {
+            var parts = token.Split("/sign/");
+            token = parts[^1].Trim();
+        }
+
+        Navigation.NavigateTo($"/sign/{token}");
+    }
 }
