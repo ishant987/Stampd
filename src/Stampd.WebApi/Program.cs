@@ -27,6 +27,7 @@ using Stampd.Identity.Oidc;
 using Stampd.Identity.Saml2;
 using Stampd.Infrastructure;
 using Stampd.Infrastructure.Identity;
+using Stampd.Infrastructure.MySql;
 using Stampd.Infrastructure.Sqlite;
 using Stampd.Revocation.Http;
 using Stampd.Storage.AzureBlob;
@@ -71,7 +72,17 @@ Directory.CreateDirectory(storageRoot);
 builder.Services.AddOpenApi();
 
 // Persistence
-builder.Services.AddStampdSqlite($"Data Source={sqlitePath}");
+var databaseProvider = builder.Configuration["Stampd:Database:Provider"] ?? "Sqlite";
+if (string.Equals(databaseProvider, "MySql", StringComparison.OrdinalIgnoreCase))
+{
+    var connectionString = builder.Configuration["Stampd:Database:ConnectionString"]
+        ?? throw new InvalidOperationException("Stampd:Database:ConnectionString is required when Stampd:Database:Provider=MySql.");
+    builder.Services.AddStampdMySql(connectionString);
+}
+else
+{
+    builder.Services.AddStampdSqlite($"Data Source={sqlitePath}");
+}
 
 // Document storage: FileSystem (default, dev), S3, AzureBlob, or GCS.
 var storageProvider = builder.Configuration["Stampd:Storage:Provider"] ?? "FileSystem";
@@ -551,7 +562,14 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<StampdDbContext>();
-    await db.Database.MigrateAsync().ConfigureAwait(false);
+    if (string.Equals(databaseProvider, "MySql", StringComparison.OrdinalIgnoreCase))
+    {
+        await db.Database.EnsureCreatedAsync().ConfigureAwait(false);
+    }
+    else
+    {
+        await db.Database.MigrateAsync().ConfigureAwait(false);
+    }
 }
 
 // ---- Pipeline ----

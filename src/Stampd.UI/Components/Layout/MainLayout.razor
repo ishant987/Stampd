@@ -1,79 +1,191 @@
 @inherits LayoutComponentBase
 @inject IHostEnvironment HostEnv
 @inject CurrentUserService CurrentUser
+@inject NavigationManager Nav
 
-<div class="stampd-app">
-    <header class="stampd-topbar">
-        <div class="stampd-topbar-inner">
-            <a href="/" class="stampd-brand" style="text-decoration:none; color:inherit;">
-                <span class="stampd-brand-mark">S</span>
-                <span class="stampd-brand-title">Stampd</span>
-                <span class="stampd-brand-sub">Digital Signatures</span>
+<div class="stampd-app-shell">
+    <!-- Left Navigation Sidebar (WorkspaceOS Style) -->
+    <aside class="stampd-sidebar">
+        <!-- Sidebar Header -->
+        <div class="stampd-sidebar-header">
+            <a href="/" class="stampd-sidebar-brand">
+                <div class="stampd-sidebar-logo">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="m9 12 2 2 4-4"/>
+                    </svg>
+                </div>
+                <div class="stampd-sidebar-brand-text">
+                    <div class="stampd-sidebar-title">
+                        <span>Stampd</span>
+                        <span class="stampd-badge-sub">v2.0</span>
+                    </div>
+                    <div class="stampd-sidebar-subtitle">WorkspaceOS Signatures</div>
+                </div>
             </a>
+        </div>
 
-            <nav class="stampd-topbar-nav">
-                <a href="/">Home</a>
-                <a href="/demo">Demo</a>
-                <a href="/designer">Designer</a>
-                <a href="/designer/requests">Requests</a>
-                @if (CurrentUser.IsInRole(Core.Authorization.StampdRoles.Admin))
-                {
-                    <a href="/admin" title="Admin dashboard">Admin</a>
-                }
-            </nav>
+        <!-- Sidebar Navigation Groups -->
+        <div class="stampd-sidebar-content">
+            <div class="stampd-nav-group">
+                <div class="stampd-nav-label">Workflows & Signing</div>
+                <nav class="stampd-nav-menu">
+                    <NavLink href="" Match="NavLinkMatch.All" class="stampd-nav-item">
+                        <svg class="stampd-nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        <span>Dashboard</span>
+                    </NavLink>
 
-            <div class="stampd-nav-spacer"></div>
+                    <NavLink href="designer" class="stampd-nav-item">
+                        <svg class="stampd-nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                            <path d="m15 5 4 4"/>
+                        </svg>
+                        <span>Designer</span>
+                    </NavLink>
 
-            <div class="stampd-topbar-actions">
-                @* v2.0 — user chip on the right. In Dev shows the auto-mint subject +
-                   role badges; in non-Dev degrades to "Not signed in" until cookie
-                   auth lands. *@
-                @if (CurrentUser.IsAuthenticated)
-                {
-                    <div class="stampd-user-chip" title="Signed in as @CurrentUser.DisplayName">
-                        <span class="stampd-user-name">@CurrentUser.DisplayName</span>
+                    <NavLink href="designer/requests" class="stampd-nav-item">
+                        <svg class="stampd-nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
+                            <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+                            <path d="m9 15 2 2 4-4"/>
+                        </svg>
+                        <span>Signing Requests</span>
+                    </NavLink>
+
+                    <NavLink href="demo" class="stampd-nav-item">
+                        <svg class="stampd-nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        <span>1-Click Demo</span>
+                        <span class="stampd-nav-badge">OTP</span>
+                    </NavLink>
+                </nav>
+            </div>
+
+            @if (CurrentUser.IsInRole(Core.Authorization.StampdRoles.Admin))
+            {
+                <div class="stampd-nav-group">
+                    <div class="stampd-nav-label">Administration</div>
+                    <nav class="stampd-nav-menu">
+                        <NavLink href="admin" class="stampd-nav-item">
+                            <svg class="stampd-nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="18" height="18" x="3" y="3" rx="2"/>
+                                <path d="M3 9h18"/>
+                                <path d="M9 21V9"/>
+                            </svg>
+                            <span>Admin Console</span>
+                        </NavLink>
+                    </nav>
+                </div>
+            }
+
+            @if (HostEnv.IsDevelopment())
+            {
+                <div class="stampd-nav-group">
+                    <div class="stampd-nav-label">Developer Tools</div>
+                    <nav class="stampd-nav-menu">
+                        <a href="http://localhost:8090/swagger" target="_blank" rel="noopener" class="stampd-nav-item">
+                            <svg class="stampd-nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="16 18 22 12 16 6"/>
+                                <polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                            <span>Swagger API</span>
+                            <span class="stampd-nav-ext">↗</span>
+                        </a>
+                        <a href="http://localhost:8250" target="_blank" rel="noopener" class="stampd-nav-item">
+                            <svg class="stampd-nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            <span>OpenBao Vault</span>
+                            <span class="stampd-nav-ext">↗</span>
+                        </a>
+                    </nav>
+                </div>
+            }
+        </div>
+
+        <!-- Sidebar Footer (User & Appearance) -->
+        <div class="stampd-sidebar-footer">
+            <div class="stampd-user-profile">
+                <div class="stampd-avatar">
+                    @(CurrentUser.DisplayName?.Substring(0, Math.Min(1, CurrentUser.DisplayName.Length)).ToUpper() ?? "U")
+                </div>
+                <div class="stampd-user-info">
+                    <div class="stampd-user-name">@CurrentUser.DisplayName</div>
+                    <div class="stampd-user-role">
                         @foreach (var role in CurrentUser.Roles)
                         {
-                            <span class="stampd-chip stampd-chip--accent" style="font-size:0.66rem; letter-spacing:0.05em;">@role</span>
+                            <span>@role</span>
                         }
                     </div>
-                }
-
-                @* Pure-JS toggle so it works on Static SSR pages without an interactive
-                   render mode. Icon swaps in theme.js as the document attribute changes. *@
-                <button class="stampd-theme-toggle"
-                        type="button"
-                        data-theme-toggle
-                        aria-label="Toggle theme"
-                        title="Toggle theme"
-                        onclick="window.stampdTheme.toggle()">
-                    ☾
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="stampd-main">
-        <ErrorBoundary>
-            <ChildContent>
-                @Body
-            </ChildContent>
-            <ErrorContent Context="ex">
-                <div class="stampd-card">
-                    <h2 class="stampd-page-title">Something went wrong</h2>
-                    <p class="stampd-page-subtitle">@ex.Message</p>
                 </div>
-            </ErrorContent>
-        </ErrorBoundary>
-    </main>
+            </div>
 
-    <footer class="stampd-footer">
-        <span>&copy; @DateTime.Now.Year Stampd — open-source e-signature for .NET. Apache 2.0.</span>
-        <span>Build @System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version</span>
-    </footer>
+            <button class="stampd-theme-btn"
+                    type="button"
+                    data-theme-toggle
+                    aria-label="Toggle theme"
+                    title="Toggle light / dark mode"
+                    onclick="window.stampdTheme.toggle()">
+                ☾
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="stampd-content-area">
+        <!-- Slim Top App Bar -->
+        <header class="stampd-header-bar">
+            <div class="stampd-header-left">
+                <!-- Breadcrumbs -->
+                <nav class="stampd-breadcrumbs">
+                    <a href="/" class="stampd-breadcrumb-item">WorkspaceOS</a>
+                    <span class="stampd-breadcrumb-sep">/</span>
+                    <span class="stampd-breadcrumb-active">Stampd Signatures</span>
+                </nav>
+                <div class="stampd-status-pill">
+                    <span class="stampd-status-dot"></span>
+                    <span>PAdES B-LTA Engine</span>
+                </div>
+            </div>
+
+            <div class="stampd-header-right">
+                <a href="/designer" class="stampd-btn stampd-btn--primary stampd-btn--sm">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    <span>New Template</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Page Content Container -->
+        <main class="stampd-main">
+            <ErrorBoundary>
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent Context="ex">
+                    <div class="stampd-card">
+                        <h2 class="stampd-page-title">Something went wrong</h2>
+                        <p class="stampd-page-subtitle">@ex.Message</p>
+                    </div>
+                </ErrorContent>
+            </ErrorBoundary>
+        </main>
+
+        <!-- Footer -->
+        <footer class="stampd-footer">
+            <span>&copy; @DateTime.Now.Year WorkspaceOS Stampd — Cryptographic E-Signatures</span>
+            <span>Version @(System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString() ?? "2.0.0")</span>
+        </footer>
+    </div>
 </div>
 
 <FluentToastProvider />
 <FluentDialogProvider />
-
-

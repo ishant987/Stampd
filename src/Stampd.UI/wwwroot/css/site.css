@@ -1,12 +1,13 @@
 /* ============================================================
-   Stampd — executive design system
-   Ported from the SalesBookingLedger pattern: deep-navy gradient
-   topbar, hero card with radial highlights, KPI tiles, pill chips,
-   subtle fade-up entrance animations, Inter font.
+   Stampd — WorkspaceOS Standard UI/UX Design System
+   Matches WorkspaceOS Zinc / Slate Shadcn layout:
+   - Fixed Left Navigation Sidebar with navigation groups
+   - Slim Header App Bar with breadcrumbs & status badges
+   - Modern clean cards, KPI metrics, badges, and tables
    ============================================================ */
 
 html, body {
-    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Instrument Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -24,61 +25,102 @@ h1:focus { outline: none; }
 
 :root,
 :root[data-theme="light"] {
-    --stampd-bg: #f4f6f9;
-    --stampd-fg: #1e293b;
+    --stampd-bg: #f8fafc;
+    --stampd-fg: #09090b;
     --stampd-surface: #ffffff;
-    --stampd-surface-alt: #f8fafc;
+    --stampd-surface-alt: #f1f5f9;
     --stampd-border: #e2e8f0;
+    --stampd-border-subtle: #f1f5f9;
     --stampd-muted: #64748b;
-    /* Topbar is a slim, very-dark slate so the hero card (brighter blue) reads as a
-       distinct surface against it. Previously both used the same navy gradient which
-       made the visual hierarchy collapse. */
-    --stampd-topbar-bg: #0a1628;
-    --stampd-topbar-fg: #ffffff;
-    --stampd-brand-sub: rgba(255, 255, 255, 0.7);
+
+    /* Left Sidebar & Header tokens */
+    --stampd-sidebar-bg: #ffffff;
+    --stampd-sidebar-fg: #09090b;
+    --stampd-sidebar-border: #e2e8f0;
+    --stampd-sidebar-hover: #f1f5f9;
+    --stampd-sidebar-active-bg: #09090b;
+    --stampd-sidebar-active-fg: #ffffff;
+
+    --stampd-header-bg: rgba(255, 255, 255, 0.85);
     --stampd-footer-bg: #ffffff;
     --stampd-footer-fg: #64748b;
-    --stampd-accent: #1a5698;
-    --stampd-accent-deep: #0b3c6e;
-    --stampd-accent-light: #2b7fce;
-    --stampd-success: #2e7d32;
-    --stampd-warning: #ef6c00;
-    --stampd-danger: #c62828;
 
-    --stampd-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-    --stampd-shadow-md: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.04);
-    --stampd-shadow-lg: 0 10px 30px rgba(11, 60, 110, 0.25);
+    --stampd-primary-btn-bg: #09090b;
+    --stampd-primary-btn-fg: #ffffff;
+    --stampd-primary-btn-hover: #18181b;
+
+    --stampd-accent: #0f172a;
+    --stampd-accent-deep: #020617;
+    --stampd-accent-light: #2563eb;
+
+    --stampd-success: #16a34a;
+    --stampd-success-bg: #ecfdf5;
+    --stampd-success-border: #a7f3d0;
+
+    --stampd-warning: #d97706;
+    --stampd-warning-bg: #fffbeb;
+    --stampd-warning-border: #fde68a;
+
+    --stampd-danger: #dc2626;
+    --stampd-danger-bg: #fef2f2;
+    --stampd-danger-border: #fecaca;
+
+    --stampd-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --stampd-shadow-md: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --stampd-shadow-lg: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 :root[data-theme="dark"] {
-    --stampd-bg: #0f172a;
-    --stampd-fg: #e2e8f0;
-    --stampd-surface: #0f1e36;
-    --stampd-surface-alt: #0b1220;
-    --stampd-border: #1e3154;
-    --stampd-muted: #94a3b8;
-    --stampd-topbar-bg: #000814;
-    --stampd-topbar-fg: #e2e8f0;
-    --stampd-brand-sub: rgba(226, 232, 240, 0.6);
-    --stampd-footer-bg: #0b1220;
-    --stampd-footer-fg: #94a3b8;
-    --stampd-accent: #2b7fce;
-    --stampd-accent-deep: #0b3c6e;
-    --stampd-accent-light: #93c5fd;
-    --stampd-success: #3fb950;
-    --stampd-warning: #d29922;
-    --stampd-danger: #f43f5e;
+    --stampd-bg: #09090b;
+    --stampd-fg: #f4f4f5;
+    --stampd-surface: #121215;
+    --stampd-surface-alt: #18181b;
+    --stampd-border: #27272a;
+    --stampd-border-subtle: #1e1e24;
+    --stampd-muted: #a1a1aa;
 
-    --stampd-shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
-    --stampd-shadow-md: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
-    --stampd-shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.45);
+    /* Left Sidebar & Header tokens */
+    --stampd-sidebar-bg: #0c0c0e;
+    --stampd-sidebar-fg: #f4f4f5;
+    --stampd-sidebar-border: #27272a;
+    --stampd-sidebar-hover: #18181b;
+    --stampd-sidebar-active-bg: #f4f4f5;
+    --stampd-sidebar-active-fg: #09090b;
+
+    --stampd-header-bg: rgba(9, 9, 11, 0.85);
+    --stampd-footer-bg: #0c0c0e;
+    --stampd-footer-fg: #a1a1aa;
+
+    --stampd-primary-btn-bg: #f4f4f5;
+    --stampd-primary-btn-fg: #09090b;
+    --stampd-primary-btn-hover: #e4e4e7;
+
+    --stampd-accent: #f4f4f5;
+    --stampd-accent-deep: #ffffff;
+    --stampd-accent-light: #60a5fa;
+
+    --stampd-success: #34d399;
+    --stampd-success-bg: rgba(16, 185, 129, 0.15);
+    --stampd-success-border: rgba(16, 185, 129, 0.3);
+
+    --stampd-warning: #fbbf24;
+    --stampd-warning-bg: rgba(245, 158, 11, 0.15);
+    --stampd-warning-border: rgba(245, 158, 11, 0.3);
+
+    --stampd-danger: #f87171;
+    --stampd-danger-bg: rgba(239, 68, 68, 0.15);
+    --stampd-danger-border: rgba(239, 68, 68, 0.3);
+
+    --stampd-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+    --stampd-shadow-md: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+    --stampd-shadow-lg: 0 4px 6px -1px rgb(0 0 0 / 0.4);
 }
 
 /* ============================================================
    Animations
    ============================================================ */
 @keyframes stampd-fade-up {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes stampd-fade {
@@ -87,196 +129,360 @@ h1:focus { outline: none; }
 }
 
 /* ============================================================
-   App shell
+   WorkspaceOS App Shell (Left Sidebar Layout)
    ============================================================ */
-.stampd-app {
+.stampd-app-shell {
     display: flex;
-    flex-direction: column;
     min-height: 100vh;
+    width: 100%;
     background: var(--stampd-bg);
     color: var(--stampd-fg);
 }
 
-.stampd-topbar {
+/* ============================================================
+   Left Navigation Sidebar
+   ============================================================ */
+.stampd-sidebar {
+    width: 260px;
+    height: 100vh;
     position: sticky;
     top: 0;
-    z-index: 20;
-    background: var(--stampd-topbar-bg);
-    color: var(--stampd-topbar-fg);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--stampd-sidebar-bg);
+    border-right: 1px solid var(--stampd-sidebar-border);
+    z-index: 30;
+    box-sizing: border-box;
 }
 
-.stampd-topbar-inner {
+.stampd-sidebar-header {
+    padding: 1.1rem 1.15rem;
+    border-bottom: 1px solid var(--stampd-sidebar-border);
+}
+
+.stampd-sidebar-brand {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    padding: 0.6rem 1.5rem;
-    min-height: 56px;
-    max-width: 1440px;
-    margin: 0 auto;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
 }
 
-.stampd-brand {
+.stampd-sidebar-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #09090b;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+[data-theme="dark"] .stampd-sidebar-logo {
+    background: #f4f4f5;
+    color: #09090b;
+}
+
+.stampd-sidebar-brand-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.stampd-sidebar-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--stampd-fg);
+}
+
+.stampd-badge-sub {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    background: var(--stampd-surface-alt);
+    color: var(--stampd-muted);
+    border: 1px solid var(--stampd-border);
+    letter-spacing: 0.02em;
+}
+
+.stampd-sidebar-subtitle {
+    font-size: 0.72rem;
+    color: var(--stampd-muted);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Sidebar Navigation Content */
+.stampd-sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.stampd-nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.stampd-nav-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--stampd-muted);
+    padding: 0.25rem 0.6rem;
+    margin-bottom: 0.15rem;
+}
+
+.stampd-nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.stampd-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 6px;
+    color: var(--stampd-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background 120ms ease, color 120ms ease;
+    position: relative;
+}
+
+.stampd-nav-item:hover {
+    color: var(--stampd-fg);
+    background: var(--stampd-sidebar-hover);
+    text-decoration: none;
+}
+
+/* Active NavLink in Blazor */
+.stampd-nav-item.active {
+    background: var(--stampd-sidebar-active-bg);
+    color: var(--stampd-sidebar-active-fg) !important;
+    font-weight: 600;
+}
+
+.stampd-nav-icon {
+    flex-shrink: 0;
+    opacity: 0.85;
+}
+
+.stampd-nav-item.active .stampd-nav-icon {
+    opacity: 1;
+}
+
+.stampd-nav-badge {
+    margin-left: auto;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    background: var(--stampd-surface-alt);
+    color: var(--stampd-fg);
+    border: 1px solid var(--stampd-border);
+}
+
+.stampd-nav-item.active .stampd-nav-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.stampd-nav-ext {
+    margin-left: auto;
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+/* Sidebar Footer */
+.stampd-sidebar-footer {
+    padding: 0.85rem 1rem;
+    border-top: 1px solid var(--stampd-sidebar-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    background: var(--stampd-sidebar-bg);
+}
+
+.stampd-user-profile {
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    font-weight: 600;
-    letter-spacing: 0.0125em;  /* proportional sub-pixel spacing — Qodana flags float px values as non-integer */
-    white-space: nowrap;
+    min-width: 0;
 }
 
-.stampd-brand-mark {
+.stampd-avatar {
     width: 30px;
     height: 30px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.14);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 0.95rem;
-    letter-spacing: -0.02em;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-}
-
-.stampd-brand-title {
-    font-size: 1.05rem;
-}
-
-.stampd-brand-sub {
-    font-size: 0.78rem;
-    color: var(--stampd-brand-sub);
-    margin-left: 0.25rem;
-}
-
-.stampd-nav-spacer { flex: 1; }
-
-.stampd-topbar-nav {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    margin-left: 2rem;
-}
-
-.stampd-topbar-nav a {
-    color: var(--stampd-topbar-fg);
-    text-decoration: none;
-    font-size: 0.88rem;
-    font-weight: 500;
-    opacity: 0.78;
-    transition: opacity 120ms ease;
-}
-
-.stampd-topbar-nav a:hover {
-    opacity: 1;
-    text-decoration: underline;
-}
-
-.stampd-topbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-/* v2.0 — variant for buttons placed on the deep-navy gradient hero (RequestDetail's
-   "Back to list", etc). The default ghost button uses dark text which vanishes
-   on the gradient. This modifier flips to white text + translucent white surface
-   matching the topbar's theme toggle. */
-.stampd-btn--on-dark {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.stampd-btn--on-dark:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.55);
-    color: #ffffff;
-}
-
-/* v2.0 — compact icon button used in dense table action columns. Tooltip on hover via
-   the standard title attribute; aria-label keeps the surface accessible. */
-.stampd-icon-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: 1px solid var(--stampd-border);
-    background: var(--stampd-surface);
-    color: var(--stampd-fg);
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
-}
-
-.stampd-icon-btn:hover {
+    border-radius: 50%;
     background: var(--stampd-surface-alt);
-    border-color: var(--stampd-accent);
-    color: var(--stampd-accent);
-    transform: translateY(-1px);
-}
-
-.stampd-icon-btn--primary {
-    background: var(--stampd-accent);
-    border-color: var(--stampd-accent);
-    color: #ffffff !important;  /* force-white the SVG/text — FluentUI's `a` reset can win on hover for anchor-styled icon buttons */
-}
-
-.stampd-icon-btn--primary:hover,
-.stampd-icon-btn--primary:focus,
-.stampd-icon-btn--primary:visited {
-    background: var(--stampd-accent-deep);
-    border-color: var(--stampd-accent-deep);
-    color: #ffffff !important;
-}
-
-/* v2.0 — signed-in user chip in the topbar right slot. Sits next to the theme toggle. */
-.stampd-user-chip {
+    border: 1px solid var(--stampd-border);
     display: flex;
     align-items: center;
-    gap: 0.45rem;
-    padding: 0.25rem 0.65rem 0.25rem 0.75rem;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 20px;
-    color: var(--stampd-topbar-fg);
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--stampd-fg);
+    flex-shrink: 0;
+}
+
+.stampd-user-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }
 
 .stampd-user-name {
     font-size: 0.82rem;
     font-weight: 600;
-    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--stampd-fg);
 }
 
-.stampd-theme-toggle {
+.stampd-user-role {
+    font-size: 0.68rem;
+    color: var(--stampd-muted);
+    font-weight: 500;
+    display: flex;
+    gap: 0.25rem;
+}
+
+.stampd-theme-btn {
     appearance: none;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--stampd-topbar-fg);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    font-size: 1rem;
+    border: 1px solid var(--stampd-border);
+    background: var(--stampd-surface);
+    color: var(--stampd-fg);
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 0.9rem;
     line-height: 1;
     cursor: pointer;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 160ms ease, border-color 160ms ease, transform 120ms ease;
+    transition: background 120ms ease;
+    flex-shrink: 0;
 }
 
-.stampd-theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.55);
-    transform: rotate(15deg);
+.stampd-theme-btn:hover {
+    background: var(--stampd-surface-alt);
+}
+
+/* ============================================================
+   Main Content Area & Slim Top Bar
+   ============================================================ */
+.stampd-content-area {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.stampd-header-bar {
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--stampd-header-bg);
+    border-bottom: 1px solid var(--stampd-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+}
+
+.stampd-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stampd-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+}
+
+.stampd-breadcrumb-item {
+    color: var(--stampd-muted);
+    text-decoration: none;
+    transition: color 120ms ease;
+}
+
+.stampd-breadcrumb-item:hover {
+    color: var(--stampd-fg);
+    text-decoration: underline;
+}
+
+.stampd-breadcrumb-sep {
+    color: var(--stampd-muted);
+    opacity: 0.6;
+}
+
+.stampd-breadcrumb-active {
+    color: var(--stampd-fg);
+    font-weight: 600;
+}
+
+.stampd-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: var(--stampd-surface-alt);
+    border: 1px solid var(--stampd-border);
+    color: var(--stampd-muted);
+}
+
+.stampd-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+}
+
+.stampd-header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .stampd-main {
     flex: 1;
     padding: 1.5rem;
     width: 100%;
-    max-width: 1440px;
+    max-width: 1600px;
     margin: 0 auto;
     min-width: 0;
     box-sizing: border-box;
@@ -285,8 +491,8 @@ h1:focus { outline: none; }
 .stampd-footer {
     display: flex;
     justify-content: space-between;
-    padding: 0.7rem 1.5rem;
-    font-size: 0.78rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.75rem;
     background: var(--stampd-footer-bg);
     color: var(--stampd-footer-fg);
     border-top: 1px solid var(--stampd-border);
@@ -298,7 +504,7 @@ h1:focus { outline: none; }
 .stampd-page {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
     animation: stampd-fade 240ms ease-out;
     min-width: 0;
 }
@@ -307,78 +513,76 @@ h1:focus { outline: none; }
     margin: 0;
     font-size: 1.5rem;
     font-weight: 700;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
+    color: var(--stampd-fg);
 }
 
 .stampd-page-subtitle {
     margin: 0.15rem 0 0;
-    font-size: 0.92rem;
+    font-size: 0.85rem;
     color: var(--stampd-muted);
 }
 
-/* Hero card --------------------------------------------------- */
+/* Hero card / Banner ------------------------------------------ */
 .stampd-hero {
     position: relative;
-    padding: 1.75rem 1.75rem 1.5rem;
-    border-radius: 14px;
-    color: #fff;
+    padding: 1.5rem 1.75rem;
+    border-radius: 10px;
+    color: #ffffff;
     overflow: hidden;
-    background: linear-gradient(135deg, #0b3c6e 0%, #1a5698 45%, #2b7fce 100%);
-    box-shadow: var(--stampd-shadow-lg);
-    animation: stampd-fade-up 320ms ease-out;
+    background: linear-gradient(135deg, #09090b 0%, #18181b 60%, #27272a 100%);
+    border: 1px solid #27272a;
+    box-shadow: var(--stampd-shadow-md);
+    animation: stampd-fade-up 260ms ease-out;
 }
-.stampd-hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(600px 260px at -10% -20%, rgba(255,255,255,0.20), transparent 60%),
-        radial-gradient(500px 200px at 110% 120%, rgba(255,255,255,0.10), transparent 60%);
-    pointer-events: none;
-}
+
 .stampd-hero-title {
     margin: 0;
-    font-size: 1.65rem;
+    font-size: 1.6rem;
     font-weight: 700;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
 }
+
 .stampd-hero-sub {
-    margin: .35rem 0 0;
-    font-size: .95rem;
-    opacity: 0.92;
+    margin: 0.35rem 0 0;
+    font-size: 0.88rem;
+    opacity: 0.85;
     max-width: 70ch;
     line-height: 1.5;
 }
+
 .stampd-hero-meta {
     margin-top: 1rem;
     display: flex;
     gap: 1.25rem;
     flex-wrap: wrap;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     opacity: 0.85;
 }
+
 .stampd-hero-meta strong {
     display: block;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    font-size: 0.68rem;
     font-weight: 700;
     opacity: 0.7;
     margin-bottom: 0.1rem;
 }
 
 [data-theme="dark"] .stampd-hero {
-    background: linear-gradient(135deg, #020617 0%, #0b3c6e 50%, #1a5698 100%);
+    background: linear-gradient(135deg, #09090b 0%, #121215 60%, #18181b 100%);
+    border: 1px solid var(--stampd-border);
 }
 
 /* Cards ------------------------------------------------------- */
 .stampd-card {
     background: var(--stampd-surface);
     border: 1px solid var(--stampd-border);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 1.25rem 1.5rem;
-    box-shadow: var(--stampd-shadow-md);
-    animation: stampd-fade-up 260ms ease-out;
+    box-shadow: var(--stampd-shadow-sm);
+    animation: stampd-fade-up 240ms ease-out;
 }
 
 .stampd-card--inset {
@@ -386,10 +590,10 @@ h1:focus { outline: none; }
 }
 
 .stampd-card-title {
-    margin: 0 0 0.5rem;
-    font-size: 1rem;
+    margin: 0 0 0.4rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    letter-spacing: -0.005em;
+    letter-spacing: -0.01em;
 }
 
 .stampd-card-section {
@@ -403,29 +607,24 @@ h1:focus { outline: none; }
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
-    padding: 1rem 1.2rem 1.1rem;
-    border-radius: 10px;
+    gap: 0.25rem;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
     background: var(--stampd-surface);
     border: 1px solid var(--stampd-border);
     color: var(--stampd-fg);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--stampd-shadow-sm);
     overflow: hidden;
 }
-.stampd-kpi::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--stampd-accent);
-}
+
 .stampd-kpi-label {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-weight: 600;
     color: var(--stampd-muted);
 }
+
 .stampd-kpi-value {
     font-size: 1.05rem;
     font-weight: 600;
@@ -434,9 +633,11 @@ h1:focus { outline: none; }
     line-height: 1.25;
     word-break: break-all;
 }
+
 .stampd-kpi-value--lg {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 /* Chips / pills ---------------------------------------------- */
@@ -444,35 +645,49 @@ h1:focus { outline: none; }
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 0.3rem 0.75rem;
-    border-radius: 999px;
-    font-size: 0.78rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
     border: 1px solid var(--stampd-border);
     background: var(--stampd-surface);
     color: var(--stampd-fg);
 }
 
 .stampd-chip--accent {
-    background: linear-gradient(135deg, #0b3c6e 0%, #1a5698 100%);
-    border-color: #0b3c6e;
-    color: #fff;
-    box-shadow: 0 2px 6px rgba(11, 60, 110, 0.25);
+    background: var(--stampd-surface-alt);
+    border-color: var(--stampd-border);
+    color: var(--stampd-fg);
+    font-weight: 600;
 }
 
-.stampd-chip--success { color: var(--stampd-success); border-color: var(--stampd-success); }
-.stampd-chip--warning { color: var(--stampd-warning); border-color: var(--stampd-warning); }
-.stampd-chip--danger  { color: var(--stampd-danger);  border-color: var(--stampd-danger); }
+.stampd-chip--success {
+    background: var(--stampd-success-bg);
+    border-color: var(--stampd-success-border);
+    color: var(--stampd-success);
+}
+
+.stampd-chip--warning {
+    background: var(--stampd-warning-bg);
+    border-color: var(--stampd-warning-border);
+    color: var(--stampd-warning);
+}
+
+.stampd-chip--danger {
+    background: var(--stampd-danger-bg);
+    border-color: var(--stampd-danger-border);
+    color: var(--stampd-danger);
+}
 
 /* Code ------------------------------------------------------- */
 code.stampd-code {
-    font-family: 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
-    font-size: 0.82rem;
+    font-family: ui-monospace, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+    font-size: 0.8rem;
     background: var(--stampd-surface-alt);
     border: 1px solid var(--stampd-border);
-    border-radius: 6px;
-    padding: 0.18rem 0.5rem;
+    border-radius: 4px;
+    padding: 0.15rem 0.45rem;
     color: var(--stampd-fg);
     word-break: break-all;
     display: inline-block;
@@ -485,51 +700,106 @@ code.stampd-code {
     align-items: center;
     justify-content: center;
     gap: 0.4rem;
-    padding: 0.55rem 1.1rem;
-    border-radius: 8px;
-    font-size: 0.92rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.01em;
     cursor: pointer;
     border: 1px solid transparent;
-    transition: background 160ms ease, border-color 160ms ease, transform 100ms ease;
+    transition: background 140ms ease, border-color 140ms ease, opacity 140ms ease;
     text-decoration: none;
 }
 
+.stampd-btn--sm {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+}
+
 .stampd-btn--primary {
-    background: linear-gradient(135deg, #0b3c6e 0%, #1a5698 100%);
-    color: #fff !important;  /* FluentUI's `a` reset can win on hover; force-white the text on primary so links styled as buttons stay legible across both themes */
-    box-shadow: 0 2px 8px rgba(11, 60, 110, 0.3);
+    background: var(--stampd-primary-btn-bg);
+    color: var(--stampd-primary-btn-fg) !important;
+    border: 1px solid var(--stampd-primary-btn-bg);
+    box-shadow: var(--stampd-shadow-sm);
 }
+
 .stampd-btn--primary:hover:not(:disabled) {
-    background: linear-gradient(135deg, #0b3c6e 0%, #2b7fce 100%);
-    color: #fff !important;
-    transform: translateY(-1px);
+    background: var(--stampd-primary-btn-hover);
+    color: var(--stampd-primary-btn-fg) !important;
+    border-color: var(--stampd-primary-btn-hover);
 }
+
 .stampd-btn--primary:visited,
 .stampd-btn--primary:active,
 .stampd-btn--primary:focus {
-    color: #fff !important;
+    color: var(--stampd-primary-btn-fg) !important;
 }
+
 .stampd-btn--primary:disabled {
-    background: var(--stampd-border);
-    color: var(--stampd-muted);
+    opacity: 0.5;
     cursor: not-allowed;
     box-shadow: none;
 }
 
 .stampd-btn--ghost {
-    background: transparent;
-    color: var(--stampd-fg) !important;  /* FluentUI's anchor reset wins on hover/visited for <a class="stampd-btn--ghost"> (Edit, Download), hiding the text. Force the foreground token across every state. */
-    border-color: var(--stampd-border);
+    background: var(--stampd-surface);
+    color: var(--stampd-fg) !important;
+    border: 1px solid var(--stampd-border);
+    box-shadow: var(--stampd-shadow-sm);
 }
+
 .stampd-btn--ghost:hover,
 .stampd-btn--ghost:focus,
 .stampd-btn--ghost:visited,
 .stampd-btn--ghost:active {
     background: var(--stampd-surface-alt);
     color: var(--stampd-fg) !important;
-    border-color: var(--stampd-accent);
+    border-color: var(--stampd-border);
+}
+
+.stampd-btn--on-dark {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 6px;
+}
+
+.stampd-btn--on-dark:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #ffffff !important;
+}
+
+/* Compact icon button */
+.stampd-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--stampd-border);
+    background: var(--stampd-surface);
+    color: var(--stampd-fg);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.stampd-icon-btn:hover {
+    background: var(--stampd-surface-alt);
+    border-color: var(--stampd-border);
+    color: var(--stampd-fg);
+}
+
+.stampd-icon-btn--primary {
+    background: var(--stampd-primary-btn-bg);
+    border-color: var(--stampd-primary-btn-bg);
+    color: var(--stampd-primary-btn-fg) !important;
+}
+
+.stampd-icon-btn--primary:hover {
+    background: var(--stampd-primary-btn-hover);
+    border-color: var(--stampd-primary-btn-hover);
+    color: var(--stampd-primary-btn-fg) !important;
 }
 
 /* ============================================================
@@ -537,7 +807,7 @@ code.stampd-code {
    ============================================================ */
 .signer-shell {
     display: grid;
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: 1fr 380px;
     gap: 1.25rem;
     align-items: flex-start;
 }
@@ -545,68 +815,69 @@ code.stampd-code {
 .signer-canvas-wrapper {
     background: var(--stampd-surface);
     border: 1px solid var(--stampd-border);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 1.25rem;
-    box-shadow: var(--stampd-shadow-md);
+    box-shadow: var(--stampd-shadow-sm);
     position: relative;
     overflow: auto;
     max-height: calc(100vh - 240px);
-    animation: stampd-fade-up 280ms ease-out;
+    animation: stampd-fade-up 240ms ease-out;
 }
 
 .signer-canvas-wrapper canvas {
     display: block;
     margin: 0 auto;
-    background: #fff;
+    background: #ffffff;
     box-shadow: var(--stampd-shadow-sm);
+    border-radius: 4px;
 }
 
 .signer-panel {
     background: var(--stampd-surface);
     border: 1px solid var(--stampd-border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: var(--stampd-shadow-md);
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-shadow: var(--stampd-shadow-sm);
     position: sticky;
     top: 76px;
-    animation: stampd-fade-up 320ms ease-out;
+    animation: stampd-fade-up 280ms ease-out;
 }
 
 .signer-panel-section {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.45rem;
 }
 
 .signer-panel-section + .signer-panel-section {
-    margin-top: 1.25rem;
-    padding-top: 1.25rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
     border-top: 1px solid var(--stampd-border);
 }
 
 .signer-panel-section h3 {
     margin: 0;
-    font-size: 0.74rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     font-weight: 700;
     color: var(--stampd-muted);
 }
 
 .signer-recipient-name {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 700;
     letter-spacing: -0.01em;
 }
 
 .signer-recipient-email {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     color: var(--stampd-muted);
 }
 
 /* Identity verification (Email OTP) gate */
 .signer-panel-hint {
-    font-size: 0.86rem;
+    font-size: 0.82rem;
     color: var(--stampd-muted);
     margin: 0;
     line-height: 1.4;
@@ -620,40 +891,40 @@ code.stampd-code {
 }
 
 .signer-otp-form .stampd-auth-input {
-    font-size: 1.4rem;
-    font-family: var(--stampd-font-mono, ui-monospace, Menlo, monospace);
-    letter-spacing: 0.4em;
+    font-size: 1.3rem;
+    font-family: ui-monospace, Menlo, monospace;
+    letter-spacing: 0.35em;
     text-align: center;
-    padding: 0.6rem 0.75rem;
+    padding: 0.5rem 0.75rem;
 }
 
 .signer-otp-verified {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.45rem 0.75rem;
-    background: linear-gradient(135deg, rgba(27, 122, 58, 0.12) 0%, rgba(27, 122, 58, 0.05) 100%);
-    border: 1px solid rgba(27, 122, 58, 0.30);
-    color: #1b7a3a;
-    border-radius: 8px;
-    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+    background: var(--stampd-success-bg);
+    border: 1px solid var(--stampd-success-border);
+    color: var(--stampd-success);
+    border-radius: 6px;
+    font-size: 0.82rem;
     font-weight: 600;
 }
 
 .signer-field-list {
     display: flex;
     flex-direction: column;
-    gap: 1.1rem;
+    gap: 1rem;
 }
 
 .signer-field {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.35rem;
 }
 
 .signer-field-label {
-    font-size: 0.84rem;
+    font-size: 0.82rem;
     font-weight: 600;
     color: var(--stampd-fg);
     display: flex;
@@ -668,15 +939,12 @@ code.stampd-code {
 
 .signer-signature-pad {
     border: 1px solid var(--stampd-border);
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: crosshair;
-    /* Always white so the dark ink the JS pen draws shows up in both themes. The
-       surface variable shifts to deep navy in dark mode, which made signatures
-       invisible against their own canvas. */
     background: #ffffff;
     touch-action: none;
     width: 100%;
-    height: 140px;
+    height: 130px;
 }
 
 .signer-signature-actions {
@@ -687,50 +955,46 @@ code.stampd-code {
 
 .signer-submit {
     width: 100%;
-    padding: 0.75rem 1.25rem;
-    font-size: 1rem;
+    padding: 0.65rem 1.25rem;
+    font-size: 0.95rem;
 }
 
 .signer-error {
-    background: linear-gradient(135deg, rgba(198, 40, 40, 0.12) 0%, rgba(198, 40, 40, 0.05) 100%);
-    border: 1px solid rgba(198, 40, 40, 0.35);
-    color: #8b1515;
-    padding: 0.7rem 0.9rem;
-    border-radius: 8px;
-    font-size: 0.88rem;
-}
-
-[data-theme="dark"] .signer-error {
-    background: linear-gradient(135deg, rgba(244, 63, 94, 0.22) 0%, rgba(244, 63, 94, 0.08) 100%);
-    border-color: rgba(244, 63, 94, 0.5);
-    color: #fecaca;
+    background: var(--stampd-danger-bg);
+    border: 1px solid var(--stampd-danger-border);
+    color: var(--stampd-danger);
+    padding: 0.65rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
 }
 
 /* PDF page renders */
 .pdf-page {
     position: relative;
-    background: #fff;
+    background: #ffffff;
     border: 1px solid var(--stampd-border);
     border-radius: 6px;
     box-shadow: var(--stampd-shadow-sm);
     margin: 0 auto 16px;
     font-family: system-ui, sans-serif;
 }
+
 .pdf-page-label {
-    padding: 10px 14px;
+    padding: 8px 12px;
     color: var(--stampd-muted);
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     font-weight: 600;
 }
+
 .pdf-field-overlay {
     position: absolute;
-    border: 2px dashed var(--stampd-accent);
-    background: rgba(26, 86, 152, 0.08);
+    border: 2px dashed #2563eb;
+    background: rgba(37, 99, 235, 0.08);
     border-radius: 4px;
     font-size: 11px;
-    color: var(--stampd-accent);
+    color: #2563eb;
     padding: 2px 6px;
     box-sizing: border-box;
     font-weight: 600;
@@ -742,18 +1006,17 @@ code.stampd-code {
 .signed-summary {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.8rem;
+    gap: 0.75rem;
     max-width: 720px;
 }
 
 .signed-summary .stampd-kpi {
-    padding: 0.85rem 1.1rem 0.95rem;
+    padding: 0.85rem 1.1rem;
 }
 
-/* Confirmation hero accent */
 .stampd-hero--success {
-    background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 45%, #43a047 100%);
-    box-shadow: 0 10px 30px rgba(27, 94, 32, 0.3);
+    background: linear-gradient(135deg, #047857 0%, #059669 50%, #10b981 100%);
+    border-color: #059669;
 }
 
 /* ============================================================
@@ -763,8 +1026,9 @@ code.stampd-code {
     display: flex;
     flex-direction: column;
     border: 1px solid var(--stampd-border);
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
+    background: var(--stampd-surface);
 }
 
 .stampd-request-row {
@@ -772,33 +1036,31 @@ code.stampd-code {
     grid-template-columns: 2fr 1.2fr 100px 140px 140px;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.8rem 1rem;
+    padding: 0.75rem 1rem;
     border-bottom: 1px solid var(--stampd-border);
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+    transition: background 120ms ease;
+}
+
+.stampd-request-row:hover:not(.stampd-template-head) {
+    background: var(--stampd-surface-alt);
 }
 
 .stampd-request-row:last-child { border-bottom: 0; }
-
-.stampd-chip--success {
-    background: linear-gradient(135deg, rgba(27, 122, 58, 0.15) 0%, rgba(27, 122, 58, 0.06) 100%);
-    border-color: rgba(27, 122, 58, 0.35);
-    color: #1b7a3a;
-}
-
-.stampd-chip--danger {
-    background: linear-gradient(135deg, rgba(198, 40, 40, 0.15) 0%, rgba(198, 40, 40, 0.06) 100%);
-    border-color: rgba(198, 40, 40, 0.35);
-    color: #c62828;
-}
 
 .stampd-template-row {
     display: grid;
     grid-template-columns: 2fr 80px 80px 140px 150px;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.8rem 1rem;
+    padding: 0.75rem 1rem;
     border-bottom: 1px solid var(--stampd-border);
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+    transition: background 120ms ease;
+}
+
+.stampd-template-row:hover:not(.stampd-template-head) {
+    background: var(--stampd-surface-alt);
 }
 
 .stampd-template-row:last-child { border-bottom: 0; }
@@ -806,20 +1068,20 @@ code.stampd-code {
 .stampd-template-head {
     background: var(--stampd-surface-alt);
     text-transform: uppercase;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     color: var(--stampd-muted);
 }
 
-/* Designer placed-fields table — 6 columns instead of 5 (extra Pos/size column).
-   Separate class so the templates-list layout stays intact. */
+/* Placed fields table */
 .stampd-placed-table {
     display: flex;
     flex-direction: column;
     border: 1px solid var(--stampd-border);
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
+    background: var(--stampd-surface);
 }
 
 .stampd-placed-row {
@@ -827,9 +1089,9 @@ code.stampd-code {
     grid-template-columns: 48px 64px 110px 1.4fr 1.2fr 56px;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.6rem 1rem;
+    padding: 0.55rem 1rem;
     border-bottom: 1px solid var(--stampd-border);
-    font-size: 0.88rem;
+    font-size: 0.85rem;
 }
 
 .stampd-placed-row:last-child { border-bottom: 0; }
@@ -837,55 +1099,56 @@ code.stampd-code {
 .stampd-placed-row--head {
     background: var(--stampd-surface-alt);
     text-transform: uppercase;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     color: var(--stampd-muted);
-    padding-top: 0.65rem;
-    padding-bottom: 0.65rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
 }
 
 .stampd-placed-row--selected {
-    background: rgba(43, 127, 206, 0.08);
+    background: rgba(37, 99, 235, 0.06);
 }
 
 [data-theme="dark"] .stampd-placed-row--selected {
-    background: rgba(147, 197, 253, 0.10);
+    background: rgba(96, 165, 250, 0.1);
 }
 
 .stampd-placed-row .stampd-auth-input {
-    padding: 0.3rem 0.5rem;
-    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.82rem;
 }
 
 .stampd-placed-row .stampd-btn {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.8rem;
-    min-width: 36px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.78rem;
+    min-width: 32px;
 }
 
 .stampd-auth-input {
     width: 100%;
     box-sizing: border-box;
-    padding: 0.55rem 0.85rem;
+    padding: 0.45rem 0.75rem;
     border: 1px solid var(--stampd-border);
-    border-radius: 8px;
+    border-radius: 6px;
     background: var(--stampd-surface);
     color: var(--stampd-fg);
-    font-size: 0.92rem;
+    font-size: 0.875rem;
     font-family: inherit;
-    transition: border-color 160ms ease;
+    transition: border-color 140ms ease, box-shadow 140ms ease;
 }
 
 .stampd-auth-input:focus {
     outline: none;
-    border-color: var(--stampd-accent);
+    border-color: var(--stampd-fg);
+    box-shadow: 0 0 0 1px var(--stampd-fg);
 }
 
 .designer-canvas-host {
     background: var(--stampd-surface-alt);
     border: 1px solid var(--stampd-border);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 1rem;
     max-height: 720px;
     overflow: auto;
@@ -894,9 +1157,9 @@ code.stampd-code {
 
 .designer-page {
     position: relative;
-    background: #fff;
+    background: #ffffff;
     box-shadow: var(--stampd-shadow-md);
-    border-radius: 6px;
+    border-radius: 4px;
     margin: 0 auto 16px;
     display: inline-block;
     cursor: crosshair;
@@ -904,13 +1167,10 @@ code.stampd-code {
 
 .designer-page canvas {
     display: block;
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
 .designer-overlay-layer {
-    /* Transparent to pointer events so background clicks reach the page wrapper for
-       new-field placement, BUT the .designer-field children below override this so
-       they capture their own clicks for selection / drag / resize. */
     pointer-events: none;
 }
 
@@ -919,20 +1179,18 @@ code.stampd-code {
     pointer-events: auto;
 }
 
-/* ------------------------------------------------------------
-   Placed-field overlays in the designer
-   ------------------------------------------------------------ */
+/* Placed-field overlays in the designer */
 .designer-field {
-    border: 2px solid var(--stampd-accent);
-    background: rgba(26, 86, 152, 0.16);
-    color: var(--stampd-accent);
+    border: 2px solid #2563eb;
+    background: rgba(37, 99, 235, 0.14);
+    color: #2563eb;
     font-size: 11px;
     font-weight: 600;
     border-radius: 4px;
     overflow: visible;
-    box-shadow: 0 1px 3px rgba(11, 60, 110, 0.2);
-    cursor: grab !important;   /* override the page-wrapper's crosshair on hover */
-    transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 80ms ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    cursor: grab !important;
+    transition: background 140ms ease, border-color 140ms ease;
     user-select: none;
     -webkit-user-select: none;
 }
@@ -940,9 +1198,8 @@ code.stampd-code {
 .designer-field * { cursor: inherit; }
 
 .designer-field:hover {
-    background: rgba(26, 86, 152, 0.24);
-    border-color: var(--stampd-accent-deep);
-    box-shadow: 0 2px 6px rgba(11, 60, 110, 0.32);
+    background: rgba(37, 99, 235, 0.22);
+    border-color: #1d4ed8;
 }
 
 .designer-field-label-inner {
@@ -955,19 +1212,10 @@ code.stampd-code {
 }
 
 .designer-field--selected {
-    background: rgba(43, 127, 206, 0.22);
-    border-color: var(--stampd-accent-deep);
-    box-shadow:
-        0 0 0 3px rgba(43, 127, 206, 0.30),
-        0 4px 14px rgba(11, 60, 110, 0.30);
+    background: rgba(37, 99, 235, 0.25);
+    border-color: #1d4ed8;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.4), var(--stampd-shadow-md);
     z-index: 5;
-    animation: stampd-field-pop 180ms ease-out;
-}
-
-@keyframes stampd-field-pop {
-    0%   { transform: scale(1); }
-    50%  { transform: scale(1.02); }
-    100% { transform: scale(1); }
 }
 
 .designer-page--dragging .designer-field {
@@ -976,72 +1224,69 @@ code.stampd-code {
 }
 
 [data-theme="dark"] .designer-field {
-    background: rgba(147, 197, 253, 0.18);
-    color: var(--stampd-accent-light);
-    border-color: var(--stampd-accent-light);
+    background: rgba(96, 165, 250, 0.18);
+    color: #93c5fd;
+    border-color: #60a5fa;
 }
 
 [data-theme="dark"] .designer-field:hover {
-    background: rgba(147, 197, 253, 0.28);
+    background: rgba(96, 165, 250, 0.28);
 }
 
 [data-theme="dark"] .designer-field--selected {
-    background: rgba(147, 197, 253, 0.30);
+    background: rgba(96, 165, 250, 0.32);
     border-color: #ffffff;
-    box-shadow:
-        0 0 0 3px rgba(147, 197, 253, 0.35),
-        0 4px 14px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.5), var(--stampd-shadow-md);
 }
 
-/* Resize handles — four corners, only visible when selected */
+/* Resize handles */
 .designer-field-handle {
     position: absolute;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     background: #ffffff;
-    border: 2px solid var(--stampd-accent-deep);
+    border: 2px solid #1d4ed8;
     border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     z-index: 6;
 }
 
-.designer-field-handle--nw { top: -6px;    left: -6px;    cursor: nwse-resize; }
-.designer-field-handle--ne { top: -6px;    right: -6px;   cursor: nesw-resize; }
-.designer-field-handle--sw { bottom: -6px; left: -6px;    cursor: nesw-resize; }
-.designer-field-handle--se { bottom: -6px; right: -6px;   cursor: nwse-resize; }
+.designer-field-handle--nw { top: -5px;    left: -5px;    cursor: nwse-resize; }
+.designer-field-handle--ne { top: -5px;    right: -5px;   cursor: nesw-resize; }
+.designer-field-handle--sw { bottom: -5px; left: -5px;    cursor: nesw-resize; }
+.designer-field-handle--se { bottom: -5px; right: -5px;   cursor: nwse-resize; }
 
 [data-theme="dark"] .designer-field-handle {
-    background: var(--stampd-accent-light);
+    background: #60a5fa;
     border-color: #ffffff;
 }
 
-/* Delete button overlay on selected field */
+/* Delete button overlay */
 .designer-field-delete {
     position: absolute;
-    top: -10px;
-    right: -10px;
-    width: 22px;
-    height: 22px;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     border: 2px solid #ffffff;
     background: var(--stampd-danger);
     color: #ffffff;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     line-height: 1;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     z-index: 7;
     padding: 0;
-    transition: transform 120ms ease, background 120ms ease;
+    transition: transform 120ms ease;
 }
 
 .designer-field-delete:hover {
     transform: scale(1.15);
-    background: #d32f2f;
 }
 
 /* ============================================================
@@ -1051,69 +1296,65 @@ code.stampd-code {
 /* Home Dashboard Grid */
 .stampd-dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.25rem;
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
 }
 
 .stampd-feature-card {
     background: var(--stampd-surface);
     border: 1px solid var(--stampd-border);
-    border-radius: 12px;
-    padding: 1.5rem;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
     text-decoration: none;
     color: inherit;
     position: relative;
-    overflow: hidden;
+    box-shadow: var(--stampd-shadow-sm);
 }
 
 .stampd-feature-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--stampd-accent-light);
-    box-shadow: var(--stampd-shadow-lg);
+    border-color: var(--stampd-muted);
+    box-shadow: var(--stampd-shadow-md);
 }
 
 .stampd-feature-card-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.75rem;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
 .stampd-feature-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
-    background: rgba(26, 86, 152, 0.1);
-    color: var(--stampd-accent);
+    font-size: 1.2rem;
+    background: var(--stampd-surface-alt);
+    color: var(--stampd-fg);
     flex-shrink: 0;
-}
-
-[data-theme="dark"] .stampd-feature-icon {
-    background: rgba(43, 127, 206, 0.2);
-    color: var(--stampd-accent-light);
+    border: 1px solid var(--stampd-border);
 }
 
 .stampd-feature-title {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 700;
     margin: 0;
     color: var(--stampd-fg);
+    letter-spacing: -0.01em;
 }
 
 .stampd-feature-desc {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     line-height: 1.5;
     color: var(--stampd-muted);
-    margin: 0 0 1.25rem 0;
+    margin: 0 0 1rem 0;
     flex-grow: 1;
 }
 
@@ -1121,28 +1362,25 @@ code.stampd-code {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     font-weight: 600;
-    color: var(--stampd-accent);
+    color: var(--stampd-fg);
     padding-top: 0.75rem;
     border-top: 1px solid var(--stampd-border);
 }
 
-[data-theme="dark"] .stampd-feature-action {
-    color: var(--stampd-accent-light);
-}
-
 /* Quick Token Signer Launcher */
 .stampd-quick-launch {
-    background: var(--stampd-surface-alt);
+    background: var(--stampd-surface);
     border: 1px solid var(--stampd-border);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 1.25rem 1.5rem;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     display: flex;
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
+    box-shadow: var(--stampd-shadow-sm);
 }
 
 .stampd-quick-launch-input {
@@ -1154,31 +1392,32 @@ code.stampd-code {
 .stampd-stepper {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
-    margin-top: 1.25rem;
+    gap: 1rem;
+    margin-top: 1rem;
 }
 
 .stampd-step-card {
     background: var(--stampd-surface);
     border: 1px solid var(--stampd-border);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 1.25rem;
     display: flex;
     gap: 1rem;
     align-items: flex-start;
+    box-shadow: var(--stampd-shadow-sm);
 }
 
 .stampd-step-num {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--stampd-accent);
-    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--stampd-primary-btn-bg);
+    color: var(--stampd-primary-btn-fg);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     flex-shrink: 0;
 }
 
@@ -1187,13 +1426,13 @@ code.stampd-code {
 }
 
 .stampd-step-title {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    margin: 0 0 0.35rem 0;
+    margin: 0 0 0.25rem 0;
 }
 
 .stampd-step-text {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     color: var(--stampd-muted);
     margin: 0 0 0.75rem 0;
     line-height: 1.5;
@@ -1204,27 +1443,41 @@ code.stampd-code {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 0.2rem 0.6rem;
-    border-radius: 16px;
-    font-size: 0.75rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 9999px;
+    font-size: 0.72rem;
     font-weight: 600;
-    background: rgba(43, 127, 206, 0.12);
-    color: var(--stampd-accent);
-    border: 1px solid rgba(43, 127, 206, 0.25);
+    background: var(--stampd-surface-alt);
+    color: var(--stampd-muted);
+    border: 1px solid var(--stampd-border);
 }
 
 /* ============================================================
    Responsive
    ============================================================ */
-@media (max-width: 960px) {
+@media (max-width: 900px) {
+    .stampd-app-shell {
+        flex-direction: column;
+    }
+    .stampd-sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--stampd-sidebar-border);
+    }
+    .stampd-sidebar-content {
+        padding: 0.5rem 1rem;
+    }
+    .stampd-nav-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
     .signer-shell {
         grid-template-columns: 1fr;
     }
     .signer-panel {
         position: static;
-    }
-    .stampd-topbar-inner {
-        flex-wrap: wrap;
     }
     .stampd-dashboard-grid {
         grid-template-columns: 1fr;

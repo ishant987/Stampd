@@ -35,6 +35,7 @@ COPY --from=build /app/publish .
 # Persistent state directories — mount volumes here.
 ENV ASPNETCORE_URLS=http://+:8080 \
     ASPNETCORE_ENVIRONMENT=Production \
+    Stampd__Database__Provider=Sqlite \
     Stampd__Database__SqlitePath=/data/stampd.db \
     Stampd__Storage__FileSystemRoot=/data/documents \
     Stampd__Logging__Directory=/data/logs

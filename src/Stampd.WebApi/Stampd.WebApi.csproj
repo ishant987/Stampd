@@ -27,6 +27,7 @@
     <ProjectReference Include="..\Stampd.Timestamp.FreeTsa\Stampd.Timestamp.FreeTsa.csproj" />
     <ProjectReference Include="..\Stampd.Infrastructure\Stampd.Infrastructure.csproj" />
     <ProjectReference Include="..\Stampd.Infrastructure.Sqlite\Stampd.Infrastructure.Sqlite.csproj" />
+    <ProjectReference Include="..\Stampd.Infrastructure.MySql\Stampd.Infrastructure.MySql.csproj" />
     <ProjectReference Include="..\Stampd.Storage.FileSystem\Stampd.Storage.FileSystem.csproj" />
     <ProjectReference Include="..\Stampd.Storage.S3\Stampd.Storage.S3.csproj" />
     <ProjectReference Include="..\Stampd.Storage.AzureBlob\Stampd.Storage.AzureBlob.csproj" />

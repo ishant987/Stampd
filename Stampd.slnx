@@ -6,6 +6,7 @@
     <Project Path="src/Stampd.Infrastructure.SqlServer/Stampd.Infrastructure.SqlServer.csproj" />
     <Project Path="src/Stampd.Infrastructure.Postgres/Stampd.Infrastructure.Postgres.csproj" />
     <Project Path="src/Stampd.Infrastructure.Sqlite/Stampd.Infrastructure.Sqlite.csproj" />
+    <Project Path="src/Stampd.Infrastructure.MySql/Stampd.Infrastructure.MySql.csproj" />
     <Project Path="src/Stampd.Crypto.LocalCertificate/Stampd.Crypto.LocalCertificate.csproj" />
     <Project Path="src/Stampd.Crypto.AzureKeyVault/Stampd.Crypto.AzureKeyVault.csproj" />
     <Project Path="src/Stampd.Crypto.AwsKms/Stampd.Crypto.AwsKms.csproj" />
